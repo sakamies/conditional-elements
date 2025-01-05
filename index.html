@@ -1,0 +1,100 @@
+<form id="giftifier">
+  <h1>Giftifier</h1>
+
+  <fieldset name="checkboxes">
+    <legend>Checkboxes</legend>
+    <input id="check-uno" type="checkbox" name="check" value="check-uno" checked>
+    <label for="check-uno">check-uno</label>
+    <!-- <input id="check-duo" type="checkbox" name="check" value="check-duo" checked>
+    <label for="check-duo">check-duo</label> -->
+  </fieldset>
+
+  <fieldset>
+    <legend>First number</legend>
+    <input type="radio" id="first10" name="first" value="10" checked>
+    <label for="first10">Ten</label>
+    <input type="radio" id="first20" name="first" value="20">
+    <label for="first20">Twenty</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Second number</legend>
+    <input type="radio" id="second30" name="second" value="30" checked>
+    <label for="second30">Thirty</label>
+    <input type="radio" id="second40" name="second" value="40">
+    <label for="second40">Forty</label>
+  </fieldset>
+
+  <input type="hidden" id="combined" name="combined">
+
+  <p>
+    Output element:
+    <output name="outputtest" aria-live="off"></output>
+  </p>
+
+  <p>
+    If/else stuff:
+    <if- for="first" value="10">10,
+      <if- for="second" value="30">30</if->
+      <else->40</else->
+    </if->
+    <if- for="first" value="20">20,
+      <if- for="second" value="30">30</if->
+      <else->40</else->
+    </if->
+  </p>
+
+  <p>
+    Expression:
+    <label>Number</label>
+    <input type="number" name="number" value="10" step="10"> * 3
+    <input type="hidden" name="expressiontest" value="true">
+    <if- for="expressiontest" value="true">= 30</if->
+    <else->≠ 30</else->
+  </p>
+
+</form>
+
+<script type="module" src="index.js"></script>
+
+<script>
+  //So this should be a factory or something instead of beind a static thing that gets created once
+  // function react(names, callback) {
+  //   const [formId, ...elementNames] = names.split(' ')
+  //   const form = document.forms[formId]
+
+  //   function dostuff() {
+  //     const data = new FormData(form)
+  //     const values = elementNames.map(name => {
+  //       const all = data.getAll(name)
+  //       return all.length > 1 ? all : all[0]
+  //     })
+  //     console.log({names, formId, elementNames, values})
+  //     callback(form.elements, ...values)
+  //   }
+
+  //   dostuff()
+  //   form.addEventListener('input', dostuff)
+  // }
+
+  // react('giftifier first second', function (elements, first, second) {
+  //   //If we proxy getters and setters on a custom handler object, we could do something like this for form elements.
+  //   //Getters would always try to get from formdata first, then from form.elements[name] if value was not in formdata.
+  //   //Condition should participate in forms via ElementInternals
+  //   console.log('react(giftifier first second:', elements, first, second)
+  //   elements.combined.value = first + second
+  //   elements.outputtest.value = first + second
+  // })
+
+  //TODO: create an object with getter & setter for each element in the form
+  //TODO: condition should be an element in the form, same as output element
+</script>
+
+<style>
+  condition- {
+    display: contents;
+  }
+  [hidden] {
+    display: none !important;
+  }
+</style>
