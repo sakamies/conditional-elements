@@ -57,39 +57,6 @@
 
 <script type="module" src="index.js"></script>
 
-<script>
-  //So this should be a factory or something instead of beind a static thing that gets created once
-  // function react(names, callback) {
-  //   const [formId, ...elementNames] = names.split(' ')
-  //   const form = document.forms[formId]
-
-  //   function dostuff() {
-  //     const data = new FormData(form)
-  //     const values = elementNames.map(name => {
-  //       const all = data.getAll(name)
-  //       return all.length > 1 ? all : all[0]
-  //     })
-  //     console.log({names, formId, elementNames, values})
-  //     callback(form.elements, ...values)
-  //   }
-
-  //   dostuff()
-  //   form.addEventListener('input', dostuff)
-  // }
-
-  // react('giftifier first second', function (elements, first, second) {
-  //   //If we proxy getters and setters on a custom handler object, we could do something like this for form elements.
-  //   //Getters would always try to get from formdata first, then from form.elements[name] if value was not in formdata.
-  //   //Condition should participate in forms via ElementInternals
-  //   console.log('react(giftifier first second:', elements, first, second)
-  //   elements.combined.value = first + second
-  //   elements.outputtest.value = first + second
-  // })
-
-  //TODO: create an object with getter & setter for each element in the form
-  //TODO: condition should be an element in the form, same as output element
-</script>
-
 <style>
   condition- {
     display: contents;
