@@ -4,6 +4,7 @@ Fun idea: <if- number="10">Value is 10</if-> Like what if the name, value pair i
 - This is crazy, linters will yell at you, but again fun! <if- for="number" not "value1" "value2"></if->
 */
 
+//TODO: sama event listener dokumentille homma tähän kun filter.js komponentissa, et ei oo väliä onko domia tai formia tai mitään olemassa kun tän instanssi tehään.
 
 export class If extends HTMLElement {
 
@@ -33,7 +34,6 @@ export class If extends HTMLElement {
     // console.log(this.for, this.for.value, this.value, )
     //TODO: how to handle checkboxes? Maybe this should check against FormData instead?
     const data = new FormData(this.form)
-    console.log(this.for, data.get(this.for), this.value)
     const isTrue = data.get(this.for) === this.value
     this.hidden = !isTrue
 
