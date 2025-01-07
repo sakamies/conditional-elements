@@ -1,0 +1,13 @@
+<script type="module">
+  import { If, Else } from './ifelse.js'
+  customElements.define("if-", If);
+  customElements.define("else-", Else);
+</script>
+
+<form>
+  <label for="num">Number</label>
+  <input id="num" type="number" name="num">
+
+  <if- for="num" value="10">Value is 10</if->
+  <else->Value not 10</else->
+</form>
