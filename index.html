@@ -1,12 +1,18 @@
-<form id="giftifier">
-  <h1>Giftifier</h1>
-
+<form id="testform">
+  <h1>If & Else custom elements</h1>
+  <p>Automatically reactive to live user input.</p>
+  <p>
+    <if- name="check" value="1">Uno,</if->
+    <if- name="check" not value="1" hidden>no Uno,</if->
+    <if- name="check" value="2">Duo</if->
+    <if- name="check" not value="2" hidden>no Duo</if->
+  </p>
   <fieldset name="checkboxes">
     <legend>Checkboxes</legend>
-    <input id="check-uno" type="checkbox" name="check" value="check-uno" checked>
-    <label for="check-uno">check-uno</label>
-    <!-- <input id="check-duo" type="checkbox" name="check" value="check-duo" checked>
-    <label for="check-duo">check-duo</label> -->
+    <input id="check-1" type="checkbox" name="check" value="1" checked>
+    <label for="check-1">Check Uno</label>
+    <input id="check-2" type="checkbox" name="check" value="2" checked>
+    <label for="check-2">Check Duo</label>
   </fieldset>
 
   <fieldset>
@@ -28,29 +34,24 @@
   <input type="hidden" id="combined" name="combined">
 
   <p>
-    Output element:
-    <output name="outputtest" aria-live="off"></output>
+    First + second =
+    <output name="outputtest" aria-live="off">1030</output>
   </p>
 
   <p>
     If/else stuff:
-    <if- for="first" value="10">10,
-      <if- for="second" value="30">30</if->
-      <else->40</else->
-    </if->
-    <if- for="first" value="20">20,
-      <if- for="second" value="30">30</if->
-      <else->40</else->
-    </if->
+    <if- name="first" value="10">First is 10,</if->
+    <if- name="first" value="20" hidden>First is 20,</if->
+    <if- name="second" value="30">second is 30</if->
+    <else- hidden>second is not 30</else->
   </p>
 
   <p>
-    Expression:
     <label>Number</label>
     <input type="number" name="number" value="10" step="10"> * 3
     <input type="hidden" name="expressiontest" value="true">
-    <if- for="expressiontest" value="true">= 30</if->
-    <else->≠ 30</else->
+    <if- name="expressiontest" value="true">= 30</if->
+    <else- hidden>≠ 30</else->
   </p>
 
 </form>
