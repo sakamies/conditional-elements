@@ -7,16 +7,15 @@ Fun idea: <if- number="10">Value is 10</if-> Like what if the name, value pair i
 //TODO: sama event listener dokumentille homma tähän kun filter.js komponentissa, et ei oo väliä onko domia tai formia tai mitään olemassa kun tän instanssi tehään.
 
 export class If extends HTMLElement {
-
-  //Not really needed, but a nice reminder of all the attributes this element officially accepts.
-  static observedAttributes = ['form', 'for', 'value', 'not']
+  //TODO: `name` attribute could refer to formData name and `for´ attribute could refer to a specific input element, just like <label for=""> does? That then would need a check so the code would use formData.get() with `for` attribute and getAll() with `name` attribute
+  static observedAttributes = ['form', 'name', 'value', 'not']
 
   get form() {
     return document.forms[this.getAttribute('form')]
     || this.closest('form')
     || console.warn('No form found for', this)
   }
-  get for() {return this.getAttribute('for')}
+  get name() {return this.getAttribute('name')}
   get value() {return this.getAttribute('value')}
 
   constructor() {
@@ -31,10 +30,12 @@ export class If extends HTMLElement {
 
   evaluateDebounced
   evaluate() {
-    // console.log(this.for, this.for.value, this.value, )
-    //TODO: how to handle checkboxes? Maybe this should check against FormData instead?
     const data = new FormData(this.form)
-    const isTrue = data.get(this.for) === this.value
+    // Using formData semantics for value check, so works fine with multiple inputs of the same name, like is often the case with lists of checkboxes, but using this requires that you understand how forms work.
+    let isTrue = data.getAll(this.name).includes(this.value)
+    if (this.getAttribute('not') !== null) {
+      isTrue = !isTrue
+    }
     this.hidden = !isTrue
 
     const elseElement = this.nextElementSibling
