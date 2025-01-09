@@ -1,8 +1,6 @@
-/*TODO:
-- This needs a way to do or and not conditions on the if elements. Ands can be done via two nested ifs. Ors could be done sibling if elements, but that would mean duplicating content. Else works as not, but again with sibling or elements would need duplicate content.
-Fun idea: <if- number="10">Value is 10</if-> Like what if the name, value pair is just attribute name and its value. So number="10" would match input <name="number" value="10">. This would introduce either reserved attribute names or
-- This is crazy, linters will yell at you, but again fun! <if- for="number" not "value1" "value2"></if->
-*/
+// TODO: How to do or? Ands can be done via two nested ifs. Ors could be done sibling if elements, but that would mean duplicating content.
+
+//TODO: if you do just <if- name="namehere"> then the match should be that if namehere is not ''. If value is '' then hide, if value is not empty string, show.
 
 //TODO: sama event listener dokumentille homma tähän kun filter.js komponentissa, et ei oo väliä onko domia tai formia tai mitään olemassa kun tän instanssi tehään.
 
@@ -10,8 +8,11 @@ export class If extends HTMLElement {
   //TODO: `name` attribute could refer to formData name and `for´ attribute could refer to a specific input element, just like <label for=""> does? That then would need a check so the code would use formData.get() with `for` attribute and getAll() with `name` attribute
   static observedAttributes = ['form', 'name', 'value', 'not']
   static debounceDelay = 33.333 //Maybe use throttle for ifs instead of debounce? Max 30fps ok? This isn't heavy at all and even less so if the form property was cached. I don't want this to be synchronous because I might want to modify some hidden inputs in response to an input event and have this if react to those hidden inputs too.
+  //Debouce won't help if some form elements value is modified in a delayd async way, like based on a fetch request. When populating the value into the input, it would need to fire an input or change event.
+  //A mutationobserver would handle any case of a form being modified, but that's just so heavy handed.
 
   get form() {
+    //This could cache the form node on any form attribute change and on connectedCallback if we don't want to query the dom on every event.
     return document.forms[this.getAttribute('form')]
     || this.closest('form')
     || console.warn('No form found for', this)
@@ -30,6 +31,7 @@ export class If extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+    //This may run while the dom is parsing and form is not ready yet. Like if you have an if clause at the top of your page and your form is at the bottom. This would cause the element to console.warn about missing form, but would work after domready of course. Debounce should take care of this in most cases though.
     this.evaluate()
   }
 
@@ -53,6 +55,7 @@ export class If extends HTMLElement {
 
   #listening
   listen() {
+    //Maybe there should be an attribute to define if this runs on every input or only on change?
     !this.#listening && document.addEventListener('input', this.handleEvent)
     !this.#listening && document.addEventListener('change', this.handleEvent)
     this.#listening = true
