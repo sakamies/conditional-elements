@@ -74,26 +74,27 @@ export class If extends HTMLElement {
 
   evaluate() {
     if (!this.form) return
+    const {name, value, data} = this
 
-    const source = this.data.getAll(this.name)
-    const value = this.value
-    const negate = this.not
 
-    // Value attribute must be set
-    // FormData must include at least one entry with name attribute.
-    // One of those entries must match value attribute.
-    // Must check explicitly and not with falsy checks.
-    const includes = value !== null && source !== null && source.includes(value)
+    const hasName = name !== null
+    const hasValue = value !== null
+    let isTrue
 
-    // Value attribute must be falsy.
-    // So either null in the case of <if->
-    // or empty string in the case of <if- value> or <if- value="">
-    // Data must include at least one entry with name attribute.
-    // One of those entries must not be falsy.
-    const notEmpty = !value && source?.some(x => !!x)
+    if (!hasName && !hasValue) {
+      isTrue = false
+    }
+    else if (hasName && !hasValue) {
+      isTrue = data.has(name)
+    }
+    else if (!hasName && hasValue) {
+      isTrue = Array.from(data.values()).includes(value)
+    }
+    else {
+      isTrue = this.data.getAll(name).includes(value)
+    }
 
-    let isTrue = includes || notEmpty
-    if (negate) isTrue = !isTrue
+    if (this.not) isTrue = !isTrue
     this.hidden = !isTrue
 
     const elseElement = this.nextElementSibling

@@ -20,28 +20,27 @@
   <fieldset>
     <legend>First number</legend>
     <input type="radio" id="first10" name="first" value="10" checked>
-    <label for="first10">Ten</label>
+    <label for="first10">10</label>
     <input type="radio" id="first20" name="first" value="20">
-    <label for="first20">Twenty</label>
+    <label for="first20">20</label>
   </fieldset>
 
   <fieldset>
     <legend>Second number</legend>
     <input type="radio" id="second30" name="second" value="30" checked>
-    <label for="second30">Thirty</label>
+    <label for="second30">30</label>
     <input type="radio" id="second40" name="second" value="40">
-    <label for="second40">Forty</label>
+    <label for="second40">40</label>
   </fieldset>
 
   <input type="hidden" id="combined" name="combined">
 
   <p>
     First + second =
-    <output name="outputtest" aria-live="off">1030</output>
+    <output name="outputtest">40</output>
   </p>
 
   <p>
-    If/else stuff:
     <if- name="first" value="10">First is 10,</if->
     <if- name="first" value="20" hidden>First is 20,</if->
     <if- name="second" value="30">second is 30</if->
@@ -50,18 +49,24 @@
 
   <p>
     <label>Number</label>
-    <input type="number" name="number" value="10" step="10"> * 3
+    <input type="number" name="number" value="10" step="10">
     <input type="hidden" name="expressiontest" value="true">
-    <if- name="expressiontest" value="true">= 30</if->
-    <else- hidden>≠ 30</else->
+    <output for="number">
+      * 3
+      <if- name="expressiontest" value="true">= 30</if->
+      <else- hidden>≠ 30</else->
+    </output>
     <br>
-    <if- name="number">Number not blank</if->
-    <if- name="number" not hidden>Blank number</if->
+    <if- name="number">Number exists at all</if->
+    <if- name="number" not>Number does not exists</if->
+    <br>
+    <if- name="number" value="">Number exist but has empty value</if->
+    <if- name="number" not value="">Number not empty value</if->
   </p>
 
   <p>
-    <if- name="nonexistent" hidden>nonexistent!? (this should never show)</if->
-    <if- name="nonexistent" not>nonexistent does not exist</if->
+    <if- name="nonexistent">Nonexistent, this should never show</if->
+    <if- name="nonexistent" not>This shoud always show</if->
   </p>
 </form>
 
