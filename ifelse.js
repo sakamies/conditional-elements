@@ -1,9 +1,5 @@
 // TODO: How to do or? Ands can be done via two nested ifs. Ors could be done sibling if elements, but that would mean duplicating content.
 
-//TODO: if you do just <if- name="namehere"> then the match should be that if namehere is not ''. If value is '' then hide, if value is not empty string, show.
-
-//TODO: sama event listener dokumentille homma tähän kun filter.js komponentissa, et ei oo väliä onko domia tai formia tai mitään olemassa kun tän instanssi tehään.
-
 export class If extends HTMLElement {
   //TODO: `name` attribute could refer to formData name and `for´ attribute could refer to a specific input element, just like <label for=""> does? That then would need a check so the code would use formData.get() with `for` attribute and getAll() with `name` attribute
   static observedAttributes = ['form', 'name', 'value', 'not']
@@ -33,7 +29,7 @@ export class If extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    //This may run while the dom is parsing and form is not ready yet. Like if you have an if clause at the top of your page and your form is at the bottom. This would cause the element to console.warn about missing form, but would work after domready of course. Debounce should take care of this in most cases though.
+    //This may run while the dom is parsing and form is not ready yet. Like if you have an if element at the top of your page and your form is at the bottom. This might cause the element to console.warn about missing form if the dom is super large and takes a long time to load. Debounce should take care for most cases so this doesn't happen, and evaluate will run once on domready, so even if the form is missing while loading a huge dom, the if will end up in its correct state.
     this.evaluate()
   }
 
@@ -48,12 +44,8 @@ export class If extends HTMLElement {
     this.listen()
     this.evaluate()
   }
-  disconnectedCallback() {
-    this.unlisten()
-  }
-  adoptedCallback() {
-    this.relisten()
-  }
+  disconnectedCallback() {this.unlisten()}
+  adoptedCallback() {this.relisten()}
 
   #listening
   listen() {
