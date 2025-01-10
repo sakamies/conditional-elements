@@ -74,12 +74,26 @@ export class If extends HTMLElement {
 
   evaluate() {
     if (!this.form) return
-    const data = new FormData(this.form)
-    // Using formData semantics for value check, so works fine with multiple inputs of the same name, like is often the case with lists of checkboxes, but using this requires that you understand how forms work.
-    let isTrue = data.getAll(this.name).includes(this.value)
-    if (this.getAttribute('not') !== null) {
-      isTrue = !isTrue
-    }
+
+    const source = this.data.getAll(this.name)
+    const value = this.value
+    const negate = this.not
+
+    // Value attribute must be set
+    // FormData must include at least one entry with name attribute.
+    // One of those entries must match value attribute.
+    // Must check explicitly and not with falsy checks.
+    const includes = value !== null && source !== null && source.includes(value)
+
+    // Value attribute must be falsy.
+    // So either null in the case of <if->
+    // or empty string in the case of <if- value> or <if- value="">
+    // Data must include at least one entry with name attribute.
+    // One of those entries must not be falsy.
+    const notEmpty = !value && source?.some(x => !!x)
+
+    let isTrue = includes || notEmpty
+    if (negate) isTrue = !isTrue
     this.hidden = !isTrue
 
     const elseElement = this.nextElementSibling
