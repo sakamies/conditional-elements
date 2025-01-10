@@ -19,6 +19,8 @@ export class If extends HTMLElement {
   }
   get name() {return this.getAttribute('name')}
   get value() {return this.getAttribute('value')}
+  get not() {return this.getAttribute('not') !== null}
+  get data() {return new FormData(this.form)}
 
   constructor() {
     super()

@@ -2,16 +2,18 @@
   <h1>If & Else custom elements</h1>
   <p>Automatically reactive to live user input.</p>
   <p>
+    <if- name="check">Checkboxes not blank?</if->
+    <br>
     <if- name="check" value="1">Uno,</if->
     <if- name="check" not value="1" hidden>no Uno,</if->
-    <if- name="check" value="2">Duo</if->
-    <if- name="check" not value="2" hidden>no Duo</if->
+    <if- name="check" value="2" hidden>Duo</if->
+    <if- name="check" not value="2">no Duo</if->
   </p>
   <fieldset name="checkboxes">
     <legend>Checkboxes</legend>
     <input id="check-1" type="checkbox" name="check" value="1" checked>
     <label for="check-1">Check Uno</label>
-    <input id="check-2" type="checkbox" name="check" value="2" checked>
+    <input id="check-2" type="checkbox" name="check" value="2">
     <label for="check-2">Check Duo</label>
   </fieldset>
 
@@ -52,8 +54,15 @@
     <input type="hidden" name="expressiontest" value="true">
     <if- name="expressiontest" value="true">= 30</if->
     <else- hidden>≠ 30</else->
+    <br>
+    <if- name="number">Number not blank</if->
+    <if- name="number" not hidden>Blank number</if->
   </p>
 
+  <p>
+    <if- name="nonexistent" hidden>nonexistent!? (this should never show)</if->
+    <if- name="nonexistent" not>nonexistent does not exist</if->
+  </p>
 </form>
 
 <script type="module" src="index.js"></script>
