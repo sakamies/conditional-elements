@@ -1,12 +1,12 @@
+//TODO: Maybe use throttle for ifs instead of debounce? Max 30fps ok? This isn't heavy at all and even less so if the form property would be cached. I don't want this to be synchronous because I might want to modify some hidden inputs in response to an input event and have this if element react to those hidden inputs.
 
-// TODO: How to do or? Ands can be done via two nested ifs. Ors could be done sibling if elements, but that would mean duplicating content.
+//Debouce won't help if some form elements value is modified in a delayd async way, like based on a fetch request. When populating the value into the input, it would need to fire an input or change event.
+
+//A mutationobserver would handle any case of a form being modified, but that's just so heavy handed. I think I only want this to react to user input. You can re-evaluate a form manually by sending an input or change event manually.
 
 export class If extends HTMLElement {
-  //TODO: `name` attribute could refer to formData name and `for´ attribute could refer to a specific input element, just like <label for=""> does? That then would need a check so the code would use formData.get() with `for` attribute and getAll() with `name` attribute
   static observedAttributes = ['form', 'name', 'value', 'not']
-  static debounceDelay = 33.333 //Maybe use throttle for ifs instead of debounce? Max 30fps ok? This isn't heavy at all and even less so if the form property was cached. I don't want this to be synchronous because I might want to modify some hidden inputs in response to an input event and have this if react to those hidden inputs too.
-  //Debouce won't help if some form elements value is modified in a delayd async way, like based on a fetch request. When populating the value into the input, it would need to fire an input or change event.
-  //A mutationobserver would handle any case of a form being modified, but that's just so heavy handed.
+  static debounceDelay = 33.333
 
   state = false
   get form() {
@@ -22,7 +22,7 @@ export class If extends HTMLElement {
 
   constructor() {
     super()
-    this.evaluateDebounced = debounce(this.evaluateIf.bind(this), If.debounceDelay)
+    this.evaluateDebounced = debounce(this.evaluate.bind(this), If.debounceDelay)
     this.handleEvent = this.handleEvent.bind(this)
   }
 
@@ -67,12 +67,64 @@ export class If extends HTMLElement {
   }
 
   evaluateDebounced
-  evaluateIf() {
-    if (!this.form) return
-    const {name, value, data} = this
 
-    const hasName = name !== null
-    const hasValue = value !== null
+  evaluate() {
+    if (!this.form) return
+
+    const {name, value, data} = this
+    const state = this.evaluateCondition(name, value, data, this.not)
+
+    this.state = state
+    this.hidden = !state
+
+    if (this.constructor.name === 'If') {
+      this.evaluateElse()
+    }
+    if (this.constructor.name === 'Or') {
+      this.evaluateOr()
+    }
+
+    return state
+  }
+
+  evaluateOr() {
+    let parents = []
+    let parent = this.parentElement
+
+    while (parent.constructor.name === 'If' || parent.constructor.name === 'Or') {
+      parents.push(parent)
+      if (parent.constructor.name === 'If') {
+        break
+      }
+      parent = parent.parentElement
+    }
+    if (parents.some(p => p.state === true)) {
+      this.hidden = false
+    }
+    if (this.state === true) {
+      parents.map(p => p.hidden = false)
+    }
+
+    const parentIf = parents[parents.length - 1]
+    if (parentIf?.constructor.name === 'If') {
+      parentIf.evaluateElse()
+    } else {
+      console.warn(this, 'must be nested inside an element that is an instance of', If)
+    }
+
+    return !this.hidden
+  }
+
+  evaluateElse() {
+    const elseElement = this.nextElementSibling
+    if (elseElement?.constructor.name === 'Else') {
+      elseElement.hidden = !this.hidden
+    }
+  }
+
+  evaluateCondition(name, value, data, negate) {
+    const hasName = name !== null && name !== undefined
+    const hasValue = value !== null && value !== undefined
     let state
 
     if (!hasName && !hasValue) {
@@ -87,42 +139,16 @@ export class If extends HTMLElement {
     else {
       state = this.data.getAll(name).includes(value)
     }
-
-    if (this.not) state = !state
-    this.state = state
-    this.hidden = !state
-    this.evaluateElse(state)
+    if (negate){
+      state = !state
+    }
 
     return state
-  }
-
-  evaluateElse(state) {
-    const elseElement = this.nextElementSibling
-    if (elseElement && elseElement instanceof Else) {
-      elseElement.hidden = state
-    }
-    return !state
   }
 }
 
 export class Or extends If {
-  constructor() {
-    super()
-    this.evaluateDebounced = debounce(this.evaluateOr.bind(this), If.debounceDelay)
-  }
-  evaluateOr() {
-    //TODO: Is there a guarantee that the or gets run only after if? I dunno
-    const parent = this.parentElement
-    if (parent.constructor.name === 'If') {
-      if (parent.state === true) {
-        this.hidden = false
-      } else {
-        parent.hidden = false
-        const isTrue = this.evaluateIf()
-        parent.evaluateElse(isTrue)
-      }
-    }
-  }
+  constructor() {super()}
 }
 
 export class Else extends HTMLElement {
