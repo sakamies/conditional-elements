@@ -1,49 +1,34 @@
-export function useForm(form, event) {
-  const defaultEvent = new Event('change', {bubbles: true})
-  if (event === true) {
-    event = defaultEvent
-  }
-  else if (typeof event === 'string') {
-    event = new Event(event, {bubbles: true})
-  }
-  else if (event instanceof Event) {
-    event = event
-  } else {
-    event = null
+export class Form {
+  static event = new Event('change', {bubbles: true})
+  static atomicEvents = false
+
+  constructor(form) {
+    this.form = form
+    this.values = new Proxy(this.form, this.handler)
   }
 
-  const valuesHandler = {
+  handler = {
     get(form, name) {
+      //TODO: support checkboxes? Maybe get all checkboxes that match this name and return an array of values?
       return form.elements[name].value
     },
     set(form, name, value) {
+      //TODO: support checkboxes, maybe by passing an array of truthy / falsy values? Null or undefined array items could mean that don't modify this one.
+      //Like values.check = [true, undefined, false]
       if (form.elements[name]) {
         form.elements[name].value = value
-        if (event) dispatchEvent(name)
+        if (this.atomicEvents) form.elements[name].dispatchEvent(Form.event)
         return true
       }
       else {
         return false
       }
-    },
-  }
-
-  const values = new Proxy(form, valuesHandler)
-
-  function dispatchEvent(name) {
-    const sendEvent = event || defaultEvent
-    if (name) {
-      form.elements[name].dispatchEvent(sendEvent)
-    }
-    else {
-      form.dispatchEvent(sendEvent)
     }
   }
 
-  function listen() {
-    //Is this even useful? I mean you could listen for changes in a value, but doesn't the ifs and stuff already kinda handle that stuff?
-    //???
+  //Arrow function so `this` is correct regardless of where or how it's called outside the class.
+  batch = (callback) => {
+    callback(this.values)
+    this.form.dispatchEvent(Form.event)
   }
-  //Maybe something like [elementsProxy, fire, listen]
-  return [values, dispatchEvent, listen]
 }
