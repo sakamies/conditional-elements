@@ -39,15 +39,11 @@ export class If extends HTMLElement {
   }
 
   connectedCallback() {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded",
-        this.connectedCallback.bind(this),
-        {once: true}
-      )
-      return
-    }
     this.listen()
     this.evaluateDebounced()
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", this.evaluateDebounced)
+    }
   }
   disconnectedCallback() {this.unlisten()}
   adoptedCallback() {this.relisten()}
