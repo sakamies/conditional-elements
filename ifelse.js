@@ -1,3 +1,4 @@
+
 // TODO: How to do or? Ands can be done via two nested ifs. Ors could be done sibling if elements, but that would mean duplicating content.
 
 export class If extends HTMLElement {
@@ -7,6 +8,7 @@ export class If extends HTMLElement {
   //Debouce won't help if some form elements value is modified in a delayd async way, like based on a fetch request. When populating the value into the input, it would need to fire an input or change event.
   //A mutationobserver would handle any case of a form being modified, but that's just so heavy handed.
 
+  state = false
   get form() {
     //This could cache the form node on any form attribute change and on connectedCallback if we don't want to query the dom on every event.
     return document.forms[this.getAttribute('form')]
@@ -20,17 +22,17 @@ export class If extends HTMLElement {
 
   constructor() {
     super()
-    this.evaluate = debounce(this.evaluate.bind(this), If.debounceDelay)
+    this.evaluateDebounced = debounce(this.evaluateIf.bind(this), If.debounceDelay)
     this.handleEvent = this.handleEvent.bind(this)
   }
 
   handleEvent(e) {
-    if (e.target.form === this.form) this.evaluate()
+    if (e.target.form === this.form) this.evaluateDebounced()
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     //This may run while the dom is parsing and form is not ready yet. Like if you have an if element at the top of your page and your form is at the bottom. This might cause the element to console.warn about missing form if the dom is super large and takes a long time to load. Debounce should take care for most cases so this doesn't happen, and evaluate will run once on domready, so even if the form is missing while loading a huge dom, the if will end up in its correct state.
-    this.evaluate()
+    this.evaluateDebounced()
   }
 
   connectedCallback() {
@@ -42,7 +44,7 @@ export class If extends HTMLElement {
       return
     }
     this.listen()
-    this.evaluate()
+    this.evaluateDebounced()
   }
   disconnectedCallback() {this.unlisten()}
   adoptedCallback() {this.relisten()}
@@ -64,44 +66,67 @@ export class If extends HTMLElement {
     this.listen()
   }
 
-  evaluate() {
+  evaluateDebounced
+  evaluateIf() {
     if (!this.form) return
     const {name, value, data} = this
 
-
     const hasName = name !== null
     const hasValue = value !== null
-    let isTrue
+    let state
 
     if (!hasName && !hasValue) {
-      isTrue = false
+      state = false
     }
     else if (hasName && !hasValue) {
-      isTrue = data.has(name)
+      state = data.has(name)
     }
     else if (!hasName && hasValue) {
-      isTrue = Array.from(data.values()).includes(value)
+      state = Array.from(data.values()).includes(value)
     }
     else {
-      isTrue = this.data.getAll(name).includes(value)
+      state = this.data.getAll(name).includes(value)
     }
 
-    if (this.not) isTrue = !isTrue
-    this.hidden = !isTrue
+    if (this.not) state = !state
+    this.state = state
+    this.hidden = !state
+    this.evaluateElse(state)
 
+    return state
+  }
+
+  evaluateElse(state) {
     const elseElement = this.nextElementSibling
     if (elseElement && elseElement instanceof Else) {
-      elseElement.hidden = isTrue
+      elseElement.hidden = state
     }
+    return !state
+  }
+}
 
-    return isTrue
+export class Or extends If {
+  constructor() {
+    super()
+    this.evaluateDebounced = debounce(this.evaluateOr.bind(this), If.debounceDelay)
+  }
+  evaluateOr() {
+    //TODO: Is there a guarantee that the or gets run only after if? I dunno
+    const parent = this.parentElement
+    if (parent.constructor.name === 'If') {
+      if (parent.state === true) {
+        this.hidden = false
+      } else {
+        parent.hidden = false
+        const isTrue = this.evaluateIf()
+        parent.evaluateElse(isTrue)
+      }
+    }
   }
 }
 
 export class Else extends HTMLElement {
-  constructor() {
-    super()
-  }
+  constructor() {super()}
 }
 
 function debounce (fn, delay) {

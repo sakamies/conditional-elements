@@ -68,6 +68,15 @@
     <if- name="nonexistent">Nonexistent, this should never show</if->
     <if- name="nonexistent" not>This shoud always show</if->
   </p>
+
+  <p>
+    <input type="number" name="orri" value="2">
+    <br>
+    <if- name="orri" value="1"><or- name="orri" value="2">
+      Orri is 1 or 2
+    </or-></if->
+    <else->Orri is not 1 or 2</else->
+  </p>
 </form>
 
 <script type="module" src="index.js"></script>

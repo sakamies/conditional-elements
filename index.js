@@ -1,5 +1,6 @@
-import { If, Else } from './ifelse.js'
+import { If, Or, Else } from './ifelse.js'
 customElements.define("if-", If);
+customElements.define("or-", Or);
 customElements.define("else-", Else);
 
 document.addEventListener('input', derive)
