@@ -2,3 +2,6 @@ body {
   font-family: monospace;
   line-height: 1.33;
 }
+input {
+  font: inherit;
+}

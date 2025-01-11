@@ -2,6 +2,7 @@
 
 <form id="testform">
   <h1>If, Or & Else custom elements</h1>
+
   <ul>
     <li>Name attribute checks if FormData includes an entry with that name.</li>
     <li>Value attribute checks if FormData includes that value</li>
@@ -11,53 +12,60 @@
     </li>
     <li>If you need more complex conditions, run your condition expression in javascript and set the expression result as a value on a hidden input.</li>
   </ul>
+
   <fieldset name="checkboxes">
     <legend>Checkboxes</legend>
     <p>
-      <if- name="check">Checkboxes not blank?</if-><br>
-      <if- name="check" value="1">Uno,</if->
-      <if- name="check" not value="1" hidden>no Uno,</if->
-      <if- name="check" value="2" hidden>Duo</if->
-      <if- name="check" not value="2">no Duo</if->
+      <if- name="check">Some selected</if->
+      <else->Nothing selected</else->
+      <br>
+      <if- name="check" value="1">Uno checked,</if->
+      <if- name="check" not value="1" hidden>Uno not checked,</if->
+      <if- name="check" value="2" hidden>Duo checked</if->
+      <if- name="check" not value="2">Duo not checked</if->
     </p>
     <input id="check-1" type="checkbox" name="check" value="1" checked>
     <label for="check-1">Check Uno</label>
     <input id="check-2" type="checkbox" name="check" value="2">
     <label for="check-2">Check Duo</label>
   </fieldset>
+
   <br>
+
   <fieldset>
-    <legend>First number</legend>
-    <input type="radio" id="first10" name="first" value="10" checked>
-    <label for="first10">10</label>
-    <input type="radio" id="first20" name="first" value="20">
-    <label for="first20">20</label>
+    <legend>Numbers, expression</legend>
+    <fieldset>
+      <legend>First number</legend>
+      <input type="radio" id="first10" name="first" value="10" checked>
+      <label for="first10">10</label>
+      <input type="radio" id="first20" name="first" value="20">
+      <label for="first20">20</label>
+    </fieldset>
+    <br>
+    <fieldset>
+      <legend>Second number</legend>
+      <input type="radio" id="second30" name="second" value="30" checked>
+      <label for="second30">30</label>
+      <input type="radio" id="second40" name="second" value="40">
+      <label for="second40">40</label>
+    </fieldset>
+    <input type="hidden" id="combined" name="combined">
+    <p>
+      First + second =
+      <output name="outputtest">40</output>
+    </p>
+    <p>
+      <if- name="first" value="10">First is 10,</if->
+      <if- name="first" value="20" hidden>First is 20,</if->
+      <if- name="second" value="30">second is 30</if->
+      <else- hidden>second is not 30</else->
+    </p>
   </fieldset>
+
   <br>
+
   <fieldset>
-    <legend>Second number</legend>
-    <input type="radio" id="second30" name="second" value="30" checked>
-    <label for="second30">30</label>
-    <input type="radio" id="second40" name="second" value="40">
-    <label for="second40">40</label>
-  </fieldset>
-
-  <input type="hidden" id="combined" name="combined">
-
-  <p>
-    First + second =
-    <output name="outputtest">40</output>
-  </p>
-
-  <p>
-    <if- name="first" value="10">First is 10,</if->
-    <if- name="first" value="20" hidden>First is 20,</if->
-    <if- name="second" value="30">second is 30</if->
-    <else- hidden>second is not 30</else->
-  </p>
-
-  <p>
-    <label>Number</label>
+    <legend>Number</legend>
     <input type="number" name="number" value="10" step="10">
     <input type="hidden" name="expressiontest" value="true">
     <output for="number">
@@ -65,31 +73,36 @@
       <else- hidden>* 3 ≠ 30</else->
     </output>
     <br>
-    <if- name="number">Number exists at all</if->
-    <if- name="number" not hidden="">Number does not exists</if->
+    <if- name="number">Exists at all</if->
+    <if- name="number" not hidden="">Does not exists (this should not show up)</if->
     <br>
-    <if- name="number" value="" hidden="">Number exist but has empty value</if->
-    <if- name="number" not value="">Number not empty value</if->
-  </p>
+    <if- name="number" value="" hidden="">Exist but has empty value</if->
+    <if- name="number" not value="">Non empty value</if->
+  </fieldset>
 
-  <p>
-    <if- name="nonexistent" hidden="">Nonexistent, this should never show</if->
-    <if- name="nonexistent" not>This shoud always show</if->
-  </p>
+  <br>
 
-  <p>
-    <label>Ornum</label>
-    <input type="number" name="ornum" value="2">
-    <br>
-    <if- name="ornum" value="1">
-    <or- name="ornum" value="2">
-    <or- name="ornum" value="3">
-      Ornum is 1, 2 or 3
-    </or->
-    </or->
-    </if->
-    <else- hidden>Ornum is not 1, 2 or 3</else->
-  </p>
+  <fieldset>
+    <legend>Misc</legend>
+    <p>
+      <if- name="nonexistent" hidden="">Nonexistent, this should never show</if->
+      <if- name="nonexistent" not>This shoud always show</if->
+    </p>
+    <p>
+      <label>Ornum</label>
+      <input type="number" name="ornum" value="2">
+      <br>
+      <if- name="ornum" value="1">
+      <or- name="ornum" value="2">
+      <or- name="ornum" value="3">
+        Ornum is 1, 2 or 3
+      </or->
+      </or->
+      </if->
+      <else- hidden>Ornum is not 1, 2 or 3</else->
+    </p>
+  </fieldset>
+
 </form>
 
 <script type="module" src="index.js"></script>
