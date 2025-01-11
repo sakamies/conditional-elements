@@ -61,9 +61,8 @@
     <input type="number" name="number" value="10" step="10">
     <input type="hidden" name="expressiontest" value="true">
     <output for="number">
-      * 3
-      <if- name="expressiontest" value="true">= 30</if->
-      <else- hidden>≠ 30</else->
+      <if- name="expressiontest" value="true">* 3 = 30</if->
+      <else- hidden>* 3 ≠ 30</else->
     </output>
     <br>
     <if- name="number">Number exists at all</if->
