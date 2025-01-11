@@ -27,7 +27,10 @@ export class If extends HTMLElement {
   }
 
   handleEvent(e) {
-    if (e.target.form === this.form) this.evaluateDebounced()
+    const form = this.form
+    if (e.target.form === form || e.target === form) {
+      this.evaluateDebounced()
+    }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -54,11 +57,13 @@ export class If extends HTMLElement {
     //Maybe there should be an attribute to define if this runs on every input or only on change?
     !this.#listening && document.addEventListener('input', this.handleEvent)
     !this.#listening && document.addEventListener('change', this.handleEvent)
+    !this.#listening && document.addEventListener('reset', this.handleEvent)
     this.#listening = true
   }
   unlisten() {
     document.removeEventListener('input', this.handleEvent)
     document.removeEventListener('change', this.handleEvent)
+    document.removeEventListener('reset', this.handleEvent)
     this.#listening = false
   }
   relisten() {
