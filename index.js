@@ -1,3 +1,25 @@
+
+//Let's meme!
+
+import { Meme } from './memelib.js'
+const {ids, classes, forms} = new Meme(document)
+
+console.log('ids', ids.test)
+console.log('classes', classes.test)
+console.log('forms', forms.examples)
+
+//if I gfigure out a use for apply proxy, there can be ids('stuff') that does something
+ids.test = 'Test text'
+delete ids.test
+
+
+
+//
+//
+//Actual stuff below
+//
+//
+
 import { Form } from './forms.js'
 import { If, Or, Else } from './ifelse.js'
 customElements.define("if-", If);
