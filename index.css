@@ -5,3 +5,7 @@ body {
 input {
   font: inherit;
 }
+code {
+  background: ButtonFace;
+  padding: .1rem .2rem;
+}
