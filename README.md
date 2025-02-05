@@ -6,7 +6,7 @@ Works inside forms, but you can also put these outside forms and use the [form a
 
 Uses [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) to evaluate the conditions, so works with any type of input elements (includin hidden inputs) and should work for any custom elements that participate in forms.
 
-Uses the [`hidden`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden) attribute, so does not need any styling out of the box, but feel free to style any way you like.
+Uses the [`hidden`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden) attribute, so does not need any styling out of the box, but feel free to style any way you like.
 
 Grab ifelse.js into your project. Define your elements. Name them whatever you like. I like them short.
 
