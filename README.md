@@ -33,7 +33,7 @@ customElements.define("else-", Else);
 - `value` attribute checks if FormData includes that value
 - `name` + `value` check if FormData includes that value for that name.
 
-If you need more complex conditions, run your condition expression in javascript and set the expression result as a value on a hidden input. Check more complete example usage in `index.html` & `index.js`. (https://sakamies.github.io/conditionals-customelement/)
+If you need more complex conditions, run your condition expression in javascript and set the expression result as a value on a hidden input. Check more complete example usage in `index.html` & `index.js`. (https://github.com/sakamies/conditional-elements)
 
 
 -----
