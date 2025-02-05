@@ -1,6 +1,6 @@
 # If, Or & Else custom elements
 
-Define your elements. Name them whatever you like, I like them short.
+Define your elements. Name them whatever you like. I like them short.
 
 ```js
 import { If, Or, Else } from './ifelse.js'
