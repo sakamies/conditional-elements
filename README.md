@@ -9,13 +9,17 @@ customElements.define("or-", Or);
 customElements.define("else-", Else);
 ```
 
+Show/hide stuff based on input element values.
+
 ```html
 <form>
   <input id="animal" name="animal">
   <label for="animal">What's your favourite animal?</label>
+  <p>
+    <if- name="animal" value="Giraffe" hidden>No way, mine too!</if->
+    <else- hidden>What a lovely animal!</else->
+  </p>
 </form>
-<if- name="animal" value="Giraffe" hidden>No way, mine too!</if->
-<else- hidden>What a lovely animal!</else->
 ```
 
 - Name attribute checks if FormData includes an entry with that name.
