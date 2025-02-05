@@ -76,9 +76,9 @@
     </output>
     <br>
     <if- name="number">Exists at all</if->
-    <if- name="number" not hidden="">Does not exists (this should not show up)</if->
+    <if- name="number" not hidden>Does not exists (this should not show up)</if->
     <br>
-    <if- name="number" value="" hidden="">Exist but has empty value</if->
+    <if- name="number" value="" hidden>Exist but has empty value</if->
     <if- name="number" not value="">Non empty value</if->
   </fieldset>
 
@@ -87,7 +87,7 @@
   <fieldset>
     <legend>Misc</legend>
     <p>
-      <if- name="nonexistent" hidden="">Nonexistent, this should never show</if->
+      <if- name="nonexistent" hidden>Nonexistent, this should never show</if->
       <if- name="nonexistent" not>This shoud always show</if->
     </p>
     <p>
