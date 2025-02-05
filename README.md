@@ -33,7 +33,7 @@ customElements.define("else-", Else);
 
 Check more complete example usage in `index.html` & `index.js`. (https://sakamies.github.io/conditionals-customelement/)
 
-----
+
 
 ## Licence, NPM module?
 
