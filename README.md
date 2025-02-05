@@ -6,7 +6,7 @@ Works inside forms, but you can also put these outside forms and use the [form a
 
 Uses FormData to evaluate the conditions, so works with any type of input elements and any custom elements that participate in forms.
 
-First define your elements. Name them whatever you like. I like them short.
+Grab ifelse.js into your project. Define your elements. Name them whatever you like. I like them short.
 
 ```js
 import { If, Or, Else } from './ifelse.js'
