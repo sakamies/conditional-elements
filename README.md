@@ -31,4 +31,4 @@ customElements.define("else-", Else);
 - Reacts to user input & change events. Send an event manually if you need to re-evaluate the ifs in response to something other than user input.
 - If you need more complex conditions, run your condition expression in javascript and set the expression result as a value on a hidden input.
 
-Check more complete example usage in `index.html` & `index.js`.
+Check more complete example usage in `index.html` & `index.js`. (https://sakamies.github.io/conditionals-customelement/)
