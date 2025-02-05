@@ -33,4 +33,10 @@ customElements.define("else-", Else);
 
 Check more complete example usage in `index.html` & `index.js`. (https://sakamies.github.io/conditionals-customelement/)
 
-This element is not on NPM, but feel free to learn from this, fork the code and make a package. Just give credit. I don't expect the API of this element to ever change, but I'm not sure I want to be a package maintainer.
+----
+
+## Licence, NPM module?
+
+This repo does not have a licence and is not on NPM. Feel free to learn from this, fork the code or make a package. Give credit and don't use this for anything evil.
+
+I don't expect the API of this element to ever change, but I'm not sure I want to be a package maintainer.
