@@ -27,7 +27,7 @@ customElements.define("else-", Else);
 </form>
 ```
 
-- Reacts to user input & change events. Send a change event manually if you need to re-evaluate the ifs in response to something other than user input.
+- Reacts to user input & change events. Send a change event manually from an input element if you need to re-evaluate the ifs of the form in response to something other than user input.
 - Toggles `hidden` based on given condition. Set initial visibility before elements have been initialized or evaluated ([or in case there's no js](https://piccalil.li/blog/its-about-time-i-tried-to-explain-what-progressive-enhancement-actually-is/#its-not-just-an-anti-javascript-thing-its-a-mental-model-rooted-in-iteration)) by using the `hidden` attribute yourself.
 - `name` attribute checks if FormData includes an entry with that name.
 - `value` attribute checks if FormData includes that value
