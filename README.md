@@ -41,6 +41,6 @@ If you need more complex conditions, run your condition expression in javascript
 
 ## Licence, NPM module?
 
-This repo does not have a licence and is not on NPM. Feel free to learn from this, fork the code or make a package. Give credit and don't use this for anything evil.
+This repo does not have a licence and is not on NPM. Feel free to learn from this, fork the code or make a package. Give credit and [behave](https://www.contributor-covenant.org).
 
 I don't expect the API of this element to ever change, but I'm not sure I want to be a package maintainer.
