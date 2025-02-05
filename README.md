@@ -1,6 +1,12 @@
 # If, Or & Else custom elements
 
-Define your elements. Name them whatever you like. I like them short.
+Show/hide stuff based on input element values.
+
+Works inside forms, but you can also put these outside forms and use the [form attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#form), just like you would on input elements.
+
+Uses FormData to evaluate the conditions, so works with any type of input elements and any custom elements that participate in forms.
+
+First define your elements. Name them whatever you like. I like them short.
 
 ```js
 import { If, Or, Else } from './ifelse.js'
@@ -8,8 +14,6 @@ customElements.define("if-", If);
 customElements.define("or-", Or);
 customElements.define("else-", Else);
 ```
-
-Show/hide stuff based on input element values. Works inside forms, but you can also put these outside forms and use the [form attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#form), just like you would on input elements.
 
 ```html
 <form>
