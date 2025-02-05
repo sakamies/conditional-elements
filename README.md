@@ -9,15 +9,14 @@ customElements.define("or-", Or);
 customElements.define("else-", Else);
 ```
 
-Show/hide stuff based on input element values.
+Show/hide stuff based on input element values. Works inside forms, but you can also put these outside forms and use the [form attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#form), just like you would on input elements.
 
 ```html
 <form>
-  <input id="animal" name="animal">
   <label for="animal">What's your favourite animal?</label>
+  <input id="animal" name="animal">
   <p>
     <if- name="animal" value="Giraffe" hidden>No way, mine too!</if->
-    <else- hidden>What a lovely animal!</else->
   </p>
 </form>
 ```
