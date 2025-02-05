@@ -26,7 +26,7 @@ customElements.define("else-", Else);
 ```
 
 - Reacts to user input & change events. Send a change event manually if you need to re-evaluate the ifs in response to something other than user input.
-- Toggles [`hidden`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden) based on given condition. Set initial visibility with the `hidden` attribute.
+- Toggles [`hidden`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden) based on given condition. Set initial visibility before evaluation ([or in case there's no js](https://piccalil.li/blog/its-about-time-i-tried-to-explain-what-progressive-enhancement-actually-is/#its-not-just-an-anti-javascript-thing-its-a-mental-model-rooted-in-iteration)) by using the `hidden` attribute.
 - Name attribute checks if FormData includes an entry with that name.
 - Value attribute checks if FormData includes that value
 - Name + value check if FormData includes that value for that name.
