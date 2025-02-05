@@ -4,7 +4,7 @@ Show/hide stuff based on input element values.
 
 Works inside forms, but you can also put these outside forms and use the [form attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#form), just like you would on input elements.
 
-Uses FormData to evaluate the conditions, so works with any type of input elements and any custom elements that participate in forms.
+Uses FormData to evaluate the conditions, so works with any type of input elements and should work for any custom elements that participate in forms.
 
 Grab ifelse.js into your project. Define your elements. Name them whatever you like. I like them short.
 
