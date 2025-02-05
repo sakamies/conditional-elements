@@ -1,9 +1,3 @@
-//TODO: Maybe use throttle for ifs instead of debounce? Max 30fps ok? This isn't heavy at all and even less so if the form property would be cached. I don't want this to be synchronous because I might want to modify some hidden inputs in response to an input event and have this if element react to those hidden inputs.
-
-//Debouce won't help if some form elements value is modified in a delayd async way, like based on a fetch request. When populating the value into the input, it would need to fire an input or change event.
-
-//A mutationobserver would handle any case of a form being modified, but that's just so heavy handed. I think I only want this to react to user input. You can re-evaluate a form manually by sending an input or change event manually.
-
 export class If extends HTMLElement {
   static observedAttributes = ['form', 'name', 'value', 'not']
   static debounceDelay = 33.333
@@ -50,7 +44,6 @@ export class If extends HTMLElement {
 
   #listening
   listen() {
-    //Maybe there should be an attribute to define if this runs on every input or only on change?
     !this.#listening && document.addEventListener('input', this.handleEvent)
     !this.#listening && document.addEventListener('change', this.handleEvent)
     !this.#listening && document.addEventListener('reset', this.handleEvent)
@@ -72,9 +65,7 @@ export class If extends HTMLElement {
   evaluate() {
     if (!this.form) return
 
-    const {name, value, data} = this
-    const state = this.evaluateCondition(name, value, data, this.not)
-
+    const state = this.evaluateCondition()
     this.state = state
     this.hidden = !state
 
@@ -123,7 +114,9 @@ export class If extends HTMLElement {
     }
   }
 
-  evaluateCondition(name, value, data, negate) {
+  evaluateCondition() {
+    const {name, value, data} = this
+    const negate = this.not
     const hasName = name !== null && name !== undefined
     const hasValue = value !== null && value !== undefined
     let state
