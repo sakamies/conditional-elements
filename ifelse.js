@@ -69,10 +69,10 @@ export class If extends HTMLElement {
     this.state = state
     this.hidden = !state
 
-    if (this.constructor.name === 'If') {
+    if (this.constructor === If) {
       this.evaluateElse()
     }
-    if (this.constructor.name === 'Or') {
+    if (this.constructor === Or) {
       this.evaluateOr()
     }
 
@@ -83,9 +83,9 @@ export class If extends HTMLElement {
     let parents = []
     let parent = this.parentElement
 
-    while (parent.constructor.name === 'If' || parent.constructor.name === 'Or') {
+    while (parent.constructor === If || parent.constructor === Or) {
       parents.push(parent)
-      if (parent.constructor.name === 'If') {
+      if (parent.constructor === If) {
         break
       }
       parent = parent.parentElement
@@ -98,7 +98,7 @@ export class If extends HTMLElement {
     }
 
     const parentIf = parents[parents.length - 1]
-    if (parentIf?.constructor.name === 'If') {
+    if (parentIf?.constructor === If) {
       parentIf.evaluateElse()
     } else {
       console.warn(this, 'must be nested inside an element that is an instance of', If)
@@ -109,7 +109,7 @@ export class If extends HTMLElement {
 
   evaluateElse() {
     const elseElement = this.nextElementSibling
-    if (elseElement?.constructor.name === 'Else') {
+    if (elseElement?.constructor === Else) {
       elseElement.hidden = !this.hidden
     }
   }
