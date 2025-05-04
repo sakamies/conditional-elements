@@ -4,7 +4,6 @@ export class If extends HTMLElement {
 
   state = false
   get form() {
-    //This could cache the form node on any form attribute change, connectedCallback or adoptedCallback if we don't want to query the dom on every event.
     return document.forms[this.getAttribute('form')]
     || this.closest('form')
     || console.warn('No form found for', this)
