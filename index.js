@@ -1,7 +1,7 @@
 import { If, Or, Else } from './ifelse.js'
-customElements.define("if-", If);
-customElements.define("or-", Or);
-customElements.define("else-", Else);
+customElements.define("if-", If)
+customElements.define("or-", Or)
+customElements.define("else-", Else)
 
 const form = document.forms[0]
 form.addEventListener('input', () => {

@@ -12,9 +12,9 @@ Grab ifelse.js into your project. Define your elements. Name them whatever you l
 
 ```js
 import { If, Or, Else } from './ifelse.js'
-customElements.define("if-", If);
-customElements.define("or-", Or);
-customElements.define("else-", Else);
+customElements.define("if-", If)
+customElements.define("or-", Or)
+customElements.define("else-", Else)
 ```
 
 ```html
