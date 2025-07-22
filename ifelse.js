@@ -140,13 +140,9 @@ export class If extends HTMLElement {
   }
 }
 
-export class Or extends If {
-  constructor() {super()}
-}
+export class Or extends If {}
 
-export class Else extends HTMLElement {
-  constructor() {super()}
-}
+export class Else extends HTMLElement {}
 
 function debounce (fn, delay) {
   let id
